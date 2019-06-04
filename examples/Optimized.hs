@@ -38,6 +38,6 @@ quickSum = sum' . counitOpt . unitOpt $ [1..5000]
 slowSum' :: (Num a, Enum a) => a
 slowSum' = sum' . unLeftAssoc . counitOpt . unitOpt $ LeftAssoc [1..5000]
 
--- | This may be addressed by using unitOpt' instead
+-- | This may be addressed by using 'unitOpt'' instead
 quickSum' :: (Num a, Enum a) => a
 quickSum' = sum' . unLeftAssoc . counitOpt . unitOpt' $ LeftAssoc [1..5000]

@@ -23,11 +23,11 @@ flpure a = More (\_ -> id) a (Done ())
 
 {-|
   Coalesce is a strange applicative transformer that effectively
-  "right-associates" uses of <*>, and may therefore be used to
-  eliminate the poor behaviour of FunList's <*> when used together
-  with traversals that have "left-associative" uses of <*>.
+  "right-associates" uses of '<*>', and may therefore be used to
+  eliminate the poor behaviour of 'FunList' when used together
+  with traversals that have "left-associative" uses of '<*>'.
 
-  It also merges uses of multiple uses of fmap into a single one.
+  It also merges uses of multiple uses of 'fmap' into a single one.
 -}
 newtype Coalesce f a =
   Coalesce { runCoalesce :: forall x. (forall y. ((a -> x) -> y) -> f y) -> f x}
