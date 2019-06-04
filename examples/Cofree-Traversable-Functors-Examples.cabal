@@ -1,7 +1,7 @@
 name:                Cofree-Traversable-Functors-Examples
+version:             0.1.0.0
 synopsis:            Cofree Traversable Functors
 description:         Example uses of Cofree Traversable Functors
-version:             0.1.0.0
 homepage:            https://github.com/KingoftheHomeless/Cofree-Traversable-Functors/
 license:             BSD3
 license-file:        LICENSE

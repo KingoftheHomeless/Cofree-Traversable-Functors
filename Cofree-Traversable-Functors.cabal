@@ -2,19 +2,20 @@ name:                Cofree-Traversable-Functors
 version:             0.1.0.0
 synopsis:            Cofree Traversable Functors
 description:         Example implementation of cofree traversable functors
-homepage:            https://github.com/KingoftheHomeless/Cofree-Traversable#readme
+homepage:            https://github.com/KingoftheHomeless/Cofree-Traversable-Functors/
 license:             BSD3
 license-file:        LICENSE
 author:              Love Waern
 maintainer:          combiner8761@gmail.com
 copyright:           2019 Love Waern
-category:            Web
+category:            Data
 build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
+  ghc-options:         -Wall
   exposed-modules:
     Data.Batch
     Data.Fin
@@ -31,4 +32,4 @@ library
 
 source-repository head
   type:     git
-  location: https://github.com/KingoftheHomeless/Cofree-Traversable
+  location: https://github.com/KingoftheHomeless/Cofree-Traversable-Functors
