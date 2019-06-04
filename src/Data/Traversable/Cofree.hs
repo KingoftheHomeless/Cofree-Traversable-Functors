@@ -27,7 +27,7 @@ deriving instance Functor (Cotra f)
 deriving instance Foldable (Cotra f)
 deriving instance Traversable (Cotra f)
 
--- | Calculats the characterization of any traversable container,
+-- | Calculates the characterization of any traversable container,
 -- effectively decoupling the elements of the container from
 -- its shape.
 unit :: Traversable t => t a -> Cotra t a

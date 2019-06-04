@@ -6,8 +6,8 @@ import Data.Traversable.Cofree
 import Data.Traversable.Cofree.Optimized
 import Data.Foldable (foldl')
 
--- This uses a semantically equivalent traversal as the one for normal lists,
--- but uses <*> in a left-associative manner rather than a right-associative manner.
+-- | This newtype is associated with a semantically equivalent traversal as the one for
+-- normal lists, but which uses <*> in a left-associative manner rather than a right-associative manner.
 newtype LeftAssoc a = LeftAssoc { unLeftAssoc :: [a] }
   deriving (Functor)
 

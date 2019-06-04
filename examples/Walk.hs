@@ -10,20 +10,21 @@ type family Add (n :: Nat) (m :: Nat) where
   Add 'Z m = m
   Add ('S n) m = Add n ('S m)
 
--- | appends the elements of the left vector to the right in reverse order.
+-- | Appends the elements of the left vector to the right in reverse order.
 reverseApp :: Vec n a -> Vec m a -> Vec (Add n m) a
 reverseApp End      r = r
 reverseApp (a :- l) r = reverseApp l (a :- r)
 
 
 {- |
-A GADT that may be used together with Cotra in order
+A GADT that may be used together with 'Cotra' in order
 to allow an additional number of "holes" in the predefined
 context of the parametrized functor.
 -}
 data Partial (n :: Nat) f a where
   Partial :: f (Fin (Add n m)) -> Partial n f (Fin m)
 
+-- | A bidirectional zipper for any arbitrary traversable, which is itself traversable.
 data Walk t a where
   Walk :: SNat n -> Vec n a -> Cotra (Partial n t) a -> Walk t a
 
