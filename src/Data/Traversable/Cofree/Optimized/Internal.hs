@@ -20,7 +20,6 @@ instance Applicative (FunList a b) where
 flpure :: a -> FunList a b b
 flpure a = More (\_ -> id) a (Done ())
 
-
 {-|
   Coalesce is a strange applicative transformer that effectively
   "right-associates" uses of '<*>', and may therefore be used to
@@ -30,32 +29,29 @@ flpure a = More (\_ -> id) a (Done ())
   It also merges uses of multiple uses of 'fmap' into a single one.
 -}
 newtype Coalesce f a =
-  Coalesce { runCoalesce :: forall x. (forall y. ((a -> x) -> y) -> f y) -> f x}
+  Coalesce {
+    runCoalesce :: forall x y.
+                   (a -> x -> y)
+                -> (forall z. (x -> z) -> f z)
+                -> f y
+    }
 
 instance Functor (Coalesce f) where
   fmap f coal =
-    Coalesce $ \c -> runCoalesce coal $ \axy -> c $ \bx -> axy (bx . f)
+    Coalesce $ \bxy c -> runCoalesce coal (bxy . f) c
 
 instance Applicative (Coalesce f) where
-  pure a = Coalesce $ \c -> c (\ax -> ax a)
-  ff <*> fa = Coalesce $ \c ->
-    runCoalesce ff $ \fxy ->
-      runCoalesce fa $ \ayz ->
-        c $ \bx ->
-          ayz $ \a ->
-           fxy $ \f ->
-             bx (f a)
+  pure a = Coalesce $ \axy c -> c (axy a)
+  ff <*> fa = Coalesce $ \bxy c ->
+    runCoalesce ff (\f ~(a, x) -> bxy (f a) x) $ \tz ->
+      runCoalesce fa (\a x -> tz (a, x)) c
 
-  liftA2 f fa fb = Coalesce $ \cn ->
-    runCoalesce fa $ \axy ->
-      runCoalesce fb $ \byz ->
-        cn $ \cx ->
-         byz $ \b ->
-           axy $ \a ->
-             cx (f a b)
+  liftA2 f fa fb = Coalesce $ \cxy c ->
+    runCoalesce fa (\a ~(b, x) -> cxy (f a b) x) $ \tz ->
+      runCoalesce fb (\b x -> tz (b, x)) c
 
 liftCoalesce :: Applicative f => f a -> Coalesce f a
-liftCoalesce fa = Coalesce $ \c -> liftA2 (\a f -> f a) fa (c id)
+liftCoalesce fa = Coalesce $ \f c -> liftA2 f fa (c id)
 
 lowerCoalesce :: Applicative f => Coalesce f a -> f a
-lowerCoalesce coal = runCoalesce coal (\c -> pure (c id))
+lowerCoalesce coal = runCoalesce coal const (\c -> pure (c ()))
