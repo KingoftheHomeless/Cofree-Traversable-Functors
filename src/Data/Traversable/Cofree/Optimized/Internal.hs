@@ -38,7 +38,7 @@ newtype Coalesce f a =
 
 instance Functor (Coalesce f) where
   fmap f coal =
-    Coalesce $ \bxy c -> runCoalesce coal (bxy . f) c
+    Coalesce $ \bxy -> runCoalesce coal (bxy . f)
 
 instance Applicative (Coalesce f) where
   pure a = Coalesce $ \axy c -> c (axy a)
